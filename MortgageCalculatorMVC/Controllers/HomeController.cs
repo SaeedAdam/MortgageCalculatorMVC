@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using MortgageCalculatorMVC.Models;
 using System.Diagnostics;
+using MortgageCalculatorMVC.Helpers;
 
 namespace MortgageCalculatorMVC.Controllers
 {
@@ -37,6 +38,19 @@ namespace MortgageCalculatorMVC.Controllers
 
             return View(loan);
         }
+
+        [HttpPost]
+        [AutoValidateAntiforgeryToken]
+        public IActionResult App(Loan loan)
+        {
+            //Calculate the Loan and get the payments
+            var loanHelper = new LoanHelper();
+
+            Loan newloan = loanHelper.GetPayments(loan);
+
+            return View(newloan);
+        }
+
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()
