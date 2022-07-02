@@ -1,4 +1,6 @@
-﻿namespace MortgageCalculatorMVC.Helpers
+﻿using MortgageCalculatorMVC.Models;
+
+namespace MortgageCalculatorMVC.Helpers
 {
     public class LoanHelper
     {
@@ -12,10 +14,10 @@
             var totalInterest = 0.0m;
             var monthlyInterest = 0.0m;
             var monthlyPrincipal = 0.0m;
-            var monthlyRate = CalcPayment(loan.Rate);
+            var monthlyRate = CalcMonthlyRate(loan.Rate);
 
             //loop over each month until i reach the term of the loan
-            for (int month = 0; month <= loan.term; month++)
+            for (int month = 0; month <= loan.Term; month++)
             {
                 monthlyInterest = CalcMonthlyInterest(balance, monthlyRate);
                 totalInterest += monthlyInterest;
@@ -48,7 +50,7 @@
         private decimal CalcPayment(decimal amount, decimal rate, int term)
         {            
             var monthlyRate = CalcMonthlyRate(rate);
-            var rateD = Convert.ToDouble(rate);
+            var rateD = Convert.ToDouble(monthlyRate);
             var amountD = Convert.ToDouble(amount);
 
             var paymentD = (amountD * rateD / (1 - Math.Pow(1 + rateD, - term)));
